@@ -19,8 +19,9 @@ class TodoListState extends State {
       getData();
     }
     return Scaffold(
+      backgroundColor: Color.fromARGB(255,246,246,246),
       body: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.only(left: 8.0, right: 8.0),
         child: todoListItems(),
       ),
       floatingActionButton: FloatingActionButton(
@@ -36,42 +37,65 @@ class TodoListState extends State {
 
   ListView todoListItems() {
     return ListView.builder(
+        padding: EdgeInsets.only(top: 10.0),
         itemCount: count,
         itemBuilder: (BuildContext context, int position) {
           return Padding(
-            padding: const EdgeInsets.all(2.0),
+            padding: const EdgeInsets.only(bottom: 2.0),
             child: Container(
-              height: 120.0,
-              decoration: BoxDecoration(boxShadow: [
-                BoxShadow(
-                    color: Colors.black38,
-                    blurRadius: 20.0,
-                    spreadRadius: -15.0,
-                    offset: Offset(0.0, 4.0)),
-              ]),
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                      color: Color.fromARGB(255, 235, 235, 243),
+                      blurRadius: 10.0,
+                      spreadRadius: -9.0,
+                      offset: Offset(0.0, 7.0)),
+                ],
+              ),
               child: Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0)),
                   color: Colors.white,
-                  // elevation: 5.0,
+                  elevation: 0.0,
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 20.0),
                     child: ListTile(
+                      // TODO: Find the way to align this avatar to top left corner
                       leading: CircleAvatar(
-                        radius: 15.0,
+                        radius: 12.0,
                         backgroundColor: Colors.blue,
                         child: Text(this.todos[position].id.toString()),
                       ),
                       title: Padding(
-                        padding: const EdgeInsets.only(bottom: 15.0),
+                        padding: const EdgeInsets.only(bottom: 10.0),
                         child: Text(
                           this.todos[position].title,
                           style: TextStyle(
-                              fontSize: 15.0, fontWeight: FontWeight.bold),
+                              fontSize: 15.0, fontWeight: FontWeight.w800),
                         ),
                       ),
-                      subtitle: Text(
-                        this.todos[position].date,
-                        style: TextStyle(
-                            fontSize: 11.0, fontWeight: FontWeight.w500),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            this.todos[position].description,
+                            style: TextStyle(
+                                fontSize: 13.0,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black38),
+                          ),
+                          SizedBox(
+                            height: 15.0,
+                          ), // it smell
+                          Text(
+                            'Deadline ' +
+                                this.todos[position].date.substring(10, 16),
+                            style: TextStyle(
+                                fontSize: 11.0,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black38),
+                          ),
+                        ],
                       ),
                       onTap: () {
                         debugPrint(

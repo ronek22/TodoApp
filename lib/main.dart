@@ -8,12 +8,21 @@ void main() => runApp(new MyApp());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
+    // List<Todo> todos = List<Todo>();
+    // DbHelper helper = DbHelper();
+    // helper.initalizeDb().then(
+    //   (result) => helper.getTodos().then((result) => todos = result));
+    // DateTime today = DateTime.now();
+    // Todo todo = Todo.withId(3, 'Make dinner', 3, today.toString(), 'Do it fast, becaues family is hungry');
+    // helper.updateTodo(todo);
+
     return new MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Todos',
-      theme: ThemeData(fontFamily: 'Poppins'),
+      theme: ThemeData(fontFamily: 'Manrope'),
       home: new MyHomePage(title: 'Todos'),
     );
   }
@@ -32,9 +41,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      backgroundColor: Color.fromARGB(255,213,222,217),
       body: 
       Column(
+        
         children: <Widget>[
           SimpleAppBar(widget.title),
           Expanded(child: TodoList()),

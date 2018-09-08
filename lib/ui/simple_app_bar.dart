@@ -22,8 +22,8 @@ class SimpleAppBar extends StatelessWidget {
           title,
           style: TextStyle(
               color: Colors.black54,
-              fontFamily: 'VarelaRound',
-              fontWeight: FontWeight.normal,
+              fontFamily: 'Manrope',
+              fontWeight: FontWeight.w500,
               fontSize: 26.0),
         ),
       ),

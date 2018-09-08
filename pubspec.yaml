@@ -66,6 +66,15 @@ flutter:
     - family: VarelaRound
       fonts:
         - asset: fonts/VarelaRound-Regular.ttf
+    - family: Manrope
+      fonts:
+        - asset: fonts/manrope-regular.ttf
+        - asset: fonts/manrope-light.ttf
+          weight: 300
+        - asset: fonts/manrope-semibold.ttf
+          weight: 600
+        - asset: fonts/manrope-bold.ttf
+          weight: 800
 
   #
   # For details regarding fonts from package dependencies,
