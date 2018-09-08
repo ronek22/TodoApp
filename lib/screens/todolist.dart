@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/model/todo.dart';
 import 'package:todo_app/util/dbhelper.dart';
+import 'package:todo_app/screens/tododetail.dart';
 
 class TodoList extends StatefulWidget {
   @override
@@ -25,7 +26,9 @@ class TodoListState extends State {
         child: todoListItems(),
       ),
       floatingActionButton: FloatingActionButton(
-          onPressed: null,
+          onPressed: () {
+            navigateToDetail(Todo('',3,''));
+          },
           tooltip: "Add new Todo",
           child: new Icon(
             Icons.add,
@@ -60,17 +63,16 @@ class TodoListState extends State {
                   child: ListTile(
                     // TODO: Find the way to align this avatar to top left corner
                     leading: Padding(
-                      padding: const EdgeInsets.only(left: 15.0),
+                      padding: const EdgeInsets.only(left: 17.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           CircleAvatar(
-                            radius: 10.0,
-                            backgroundColor: Colors.blue,
-                            child: Text(this.todos[position].id.toString(), textScaleFactor: 0.75,),
+                            radius: 7.0,
+                            backgroundColor: getColor(this.todos[position].priority),
                           ),
                           SizedBox(
-                            height: 55.0,
+                            height: 57.0,
                           ),
                         ],
                       ),
@@ -113,6 +115,7 @@ class TodoListState extends State {
                     onTap: () {
                       debugPrint(
                           "Tapped on " + this.todos[position].id.toString());
+                      navigateToDetail(this.todos[position]);
                     },
                   )),
             ),
@@ -139,4 +142,28 @@ class TodoListState extends State {
       });
     });
   }
+
+  Color getColor(int priority) {
+    switch(priority){
+      case 1:
+        return Colors.red;
+        break;
+      case 2:
+        return Colors.amber;
+        break;
+      case 3:
+        return Colors.lime;
+        break;
+
+      default:
+        return Colors.lime;
+    }
+  }
+
+  void navigateToDetail(Todo todo) async {
+    bool result = await Navigator.push(context, 
+      MaterialPageRoute(builder: (context) => TodoDetail(todo)),
+    );
+  }
+
 }

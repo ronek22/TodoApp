@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
     return new MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Todos',
-      theme: ThemeData(fontFamily: 'Manrope'),
+      theme: ThemeData(fontFamily: 'Manrope', hintColor: Colors.black26),
       home: new MyHomePage(title: 'Todos'),
     );
   }
