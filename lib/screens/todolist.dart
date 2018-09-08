@@ -19,7 +19,7 @@ class TodoListState extends State {
       getData();
     }
     return Scaffold(
-      backgroundColor: Color.fromARGB(255,246,246,246),
+      backgroundColor: Color.fromARGB(255, 246, 246, 246),
       body: Padding(
         padding: const EdgeInsets.only(left: 8.0, right: 8.0),
         child: todoListItems(),
@@ -57,51 +57,63 @@ class TodoListState extends State {
                       borderRadius: BorderRadius.circular(10.0)),
                   color: Colors.white,
                   elevation: 0.0,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 20.0),
-                    child: ListTile(
-                      // TODO: Find the way to align this avatar to top left corner
-                      leading: CircleAvatar(
-                        radius: 12.0,
-                        backgroundColor: Colors.blue,
-                        child: Text(this.todos[position].id.toString()),
-                      ),
-                      title: Padding(
-                        padding: const EdgeInsets.only(bottom: 10.0),
-                        child: Text(
-                          this.todos[position].title,
-                          style: TextStyle(
-                              fontSize: 15.0, fontWeight: FontWeight.w800),
-                        ),
-                      ),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                  child: ListTile(
+                    // TODO: Find the way to align this avatar to top left corner
+                    leading: Padding(
+                      padding: const EdgeInsets.only(left: 15.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          Text(
-                            this.todos[position].description,
-                            style: TextStyle(
-                                fontSize: 13.0,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.black38),
+                          CircleAvatar(
+                            radius: 10.0,
+                            backgroundColor: Colors.blue,
+                            child: Text(this.todos[position].id.toString(), textScaleFactor: 0.75,),
                           ),
                           SizedBox(
-                            height: 15.0,
-                          ), // it smell
-                          Text(
-                            'Deadline ' +
-                                this.todos[position].date.substring(10, 16),
-                            style: TextStyle(
-                                fontSize: 11.0,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.black38),
+                            height: 55.0,
                           ),
                         ],
                       ),
-                      onTap: () {
-                        debugPrint(
-                            "Tapped on " + this.todos[position].id.toString());
-                      },
                     ),
+
+                    title: Padding(
+                      padding: const EdgeInsets.only(bottom: 10.0),
+                      child: Text(
+                        this.todos[position].title,
+                        style: TextStyle(
+                            fontSize: 15.0, fontWeight: FontWeight.w800),
+                      ),
+                    ),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          this.todos[position].description,
+                          style: TextStyle(
+                              fontSize: 13.0,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black38),
+                        ),
+                        SizedBox(
+                          height: 15.0,
+                        ), // it smell
+                        Text(
+                          'Deadline ' +
+                              this.todos[position].date.substring(10, 16),
+                          style: TextStyle(
+                              fontSize: 11.0,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black38),
+                        ),
+                      ],
+                    ),
+                    contentPadding: EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 20.0),
+                    // contentPadding: EdgeInsets.zero,
+                    isThreeLine: true,
+                    onTap: () {
+                      debugPrint(
+                          "Tapped on " + this.todos[position].id.toString());
+                    },
                   )),
             ),
           );
