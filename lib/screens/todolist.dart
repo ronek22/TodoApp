@@ -101,7 +101,7 @@ class TodoListState extends State {
                         ), // it smell
                         Text(
                           'Deadline ' +
-                              this.todos[position].date.substring(10, 16),
+                              this.todos[position].date,
                           style: TextStyle(
                               fontSize: 11.0,
                               fontWeight: FontWeight.w600,
@@ -164,6 +164,10 @@ class TodoListState extends State {
     bool result = await Navigator.push(context, 
       MaterialPageRoute(builder: (context) => TodoDetail(todo)),
     );
+
+    if(result == true){
+      getData();
+    }
     
   }
 

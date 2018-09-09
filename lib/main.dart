@@ -11,13 +11,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // List<Todo> todos = List<Todo>();
     // DbHelper helper = DbHelper();
-    // helper.initalizeDb().then(
-    //   (result) => helper.getTodos().then((result) => todos = result));
     // DateTime today = DateTime.now();
-    // Todo todo = Todo.withId(3, 'Make dinner', 3, today.toString(), 'Do it fast, becaues family is hungry');
-    // helper.updateTodo(todo);
+    // Todo todo = Todo('Testing app', 1, today.toString(), 'So its gonna be hard to test it.');
+    // helper.insertTodo(todo);
 
     return new MaterialApp(
       debugShowCheckedModeBanner: false,

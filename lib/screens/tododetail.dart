@@ -3,6 +3,8 @@ import 'package:todo_app/model/todo.dart';
 import 'package:todo_app/util/dbhelper.dart';
 import 'package:intl/intl.dart';
 
+DbHelper helper = DbHelper();
+
 class TodoDetail extends StatefulWidget {
   final Todo todo;
   TodoDetail(this.todo);
@@ -11,34 +13,40 @@ class TodoDetail extends StatefulWidget {
   State<StatefulWidget> createState() => TodoDetailState(todo);
 }
 
-class TodoDetailState extends State {
+class TodoDetailState extends State<TodoDetail> {
   Todo todo;
   final _priorities = ["High", "Medium", "Low"];
   String _priority = "Low";
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+  bool isEdit;
+
+  void initState() {
+    super.initState();
+    isEdit = todo.title == '' ? false : true;
+    titleController.text = todo.title;
+    descriptionController.text = todo.description;
+  }
 
   TodoDetailState(this.todo);
 
   @override
   Widget build(BuildContext context) {
-    titleController.text = todo.title;
-    descriptionController.text = todo.description;
     TextStyle textStyle = TextStyle(
       fontSize: 16.0,
       color: Colors.black54,
       fontWeight: FontWeight.w600,
     );
 
-    // Theme.of(context).textTheme.title;
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       backgroundColor: Colors.indigoAccent,
       body: Padding(
         padding: const EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 0.0),
         child: Column(
           children: <Widget>[
             Text(
-              "Add the plan",
+              isEdit ? "Edit the plan" : "Add the plan",
               style: TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: 20.0,
@@ -77,26 +85,63 @@ class TodoDetailState extends State {
               height: 370.0,
               child: Padding(
                 padding: const EdgeInsets.symmetric(
-                    horizontal: 25.0, vertical: 35.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisAlignment: MainAxisAlignment.start,
+                    horizontal: 25.0, vertical: 15.0),
+                child: ListView(
                   children: <Widget>[
-                    CustomInput(controller: titleController, hintText: 'Title', textStyle: textStyle),
+                    TextField(
+                      onChanged: (value) {
+                        todo.title = titleController.text;
+                      },
+                      keyboardType: TextInputType.text,
+                        controller: titleController,
+                        style: textStyle,
+                        decoration: InputDecoration(
+                          hintText: 'Title',
+                          contentPadding: EdgeInsets.symmetric(vertical: 15.0),
+                          labelStyle: textStyle,
+                        )),
                     SizedBox(height: 10.0,),
-                    CustomInput(controller: descriptionController, hintText: 'Specific content', textStyle: textStyle),
+                    TextField(
+                      onChanged: (value) {
+                        todo.description = descriptionController.text;
+                      },
+                      keyboardType: TextInputType.text,
+                        controller: descriptionController,
+                        style: textStyle,
+                        decoration: InputDecoration(
+                          hintText: 'Specific content',
+                          contentPadding: EdgeInsets.symmetric(vertical: 15.0),
+                          labelStyle: textStyle,
+                        )),
                     SizedBox(height: 10.0,),
-                    PriorityDropDown(priorities: _priorities, textStyle: textStyle),
+                    InputDecorator(
+                      decoration: InputDecoration(
+                        labelText: 'Priority',
+                        contentPadding: EdgeInsets.zero,
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          items: _priorities.map((String value) {
+                            return DropdownMenuItem(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          style: textStyle,
+                          value: retrievePriority(todo.priority),
+                          onChanged: (value)=>updatePriority(value),
+                        ),
+                      ),
+                    ),
                     SizedBox(height: 50.0,),
-
                     RaisedButton(
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
                       padding: EdgeInsets.all(13.0),
                       elevation: 2.0,
                       textColor: Colors.white,
                       color: Colors.amber,
-                      onPressed: () {},
-                      child: Text("Add",
+                      onPressed: () => save(),
+                      child: Text(isEdit ? "Edit" : "Add",
                       style: TextStyle(
                         fontSize: 18.0,
                         fontWeight: FontWeight.w600
@@ -112,10 +157,11 @@ class TodoDetailState extends State {
       floatingActionButton: FloatingActionButton(
           onPressed: () {
             debugPrint("Click Floated Back.");
-            Navigator.pop(context);
+            helper.deleteTodo(todo.id);
+            Navigator.pop(context, true);
           },
           elevation: 5.0,
-          backgroundColor: Colors.indigoAccent[700],
+          backgroundColor: Colors.red,
           tooltip: "Cancel",
           child: new Icon(
             Icons.clear,
@@ -124,63 +170,51 @@ class TodoDetailState extends State {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
-}
 
-class CustomInput extends StatelessWidget {
-  const CustomInput({
-    Key key,
-    @required this.controller,
-    @required this.textStyle,
-    @required this.hintText
-  }) : super(key: key);
-
-  final TextEditingController controller;
-  final String hintText;
-  final TextStyle textStyle;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-        controller: controller,
-        style: textStyle,
-        decoration: InputDecoration(
-          hintText: hintText,
-          contentPadding: EdgeInsets.symmetric(vertical: 15.0),
-          labelStyle: textStyle,
-        ));
+  void save()  {
+    todo.date = new DateFormat.yMd().format(DateTime.now());
+    if (todo.id != null) {
+      helper.updateTodo(todo);
+    } else {
+      helper.insertTodo(todo);
+    }
+    Navigator.pop(context, true);
   }
-}
 
-class PriorityDropDown extends StatelessWidget {
-  const PriorityDropDown({
-    Key key,
-    @required List<String> priorities,
-    @required this.textStyle,
-  }) : _priorities = priorities, super(key: key);
+  void updatePriority(String value) {
+    switch(value) {
+      case 'High':
+        todo.priority = 1;
+        break;
+      case 'Medium':
+        todo.priority = 2;
+        break;
+      case 'Low':
+        todo.priority = 3;
+        break;
+    }
 
-  final List<String> _priorities;
-  final TextStyle textStyle;
-
-  @override
-  Widget build(BuildContext context) {
-    return InputDecorator(
-      decoration: InputDecoration(
-        labelText: 'Priority',
-        contentPadding: EdgeInsets.zero,
-      ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<String>(
-          items: _priorities.map((String value) {
-            return DropdownMenuItem(
-              value: value,
-              child: Text(value),
-            );
-          }).toList(),
-          style: textStyle,
-          value: "Low",
-          onChanged: null,
-        ),
-      ),
-    );
+    setState(() {
+          _priority = value;
+        });
   }
+
+  String retrievePriority(int value) {
+    return _priorities[value - 1];
+  }
+
+  void updateTitle(){
+    setState(() {
+          todo.title = titleController.text;
+        });
+  }
+
+  void updateDescription(){
+    setState(() {
+       todo.description = descriptionController.text;
+          
+        });
+  }
+
 }
+

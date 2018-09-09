@@ -22,7 +22,7 @@ class Todo {
 
   set description(String newDescription) {
     if (newDescription.length <= 255) {
-      _title = newDescription;
+      _description = newDescription;
     }
   }
 
