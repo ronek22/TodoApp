@@ -100,7 +100,7 @@ class TodoListState extends State {
                           height: 15.0,
                         ), // it smell
                         Text(
-                          'Deadline ' +
+                          'Created at ' +
                               this.todos[position].date,
                           style: TextStyle(
                               fontSize: 11.0,

@@ -154,7 +154,7 @@ class TodoDetailState extends State<TodoDetail> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: isEdit ? FloatingActionButton(
           onPressed: () {
             debugPrint("Click Floated Back.");
             helper.deleteTodo(todo.id);
@@ -166,7 +166,7 @@ class TodoDetailState extends State<TodoDetail> {
           child: new Icon(
             Icons.clear,
             size: 35.0,
-          )),
+          )) : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
