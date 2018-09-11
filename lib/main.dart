@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/ui/simple_app_bar.dart';
-import 'package:todo_app/util/dbhelper.dart';
-import 'package:todo_app/model/todo.dart';
 import 'package:todo_app/screens/todolist.dart';
 
 void main() => runApp(new MyApp());
@@ -11,11 +9,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // DbHelper helper = DbHelper();
-    // DateTime today = DateTime.now();
-    // Todo todo = Todo('Testing app', 1, today.toString(), 'So its gonna be hard to test it.');
-    // helper.insertTodo(todo);
-
     return new MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Todos',
