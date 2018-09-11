@@ -158,7 +158,7 @@ class TodoListState extends State {
     if (desc.length != 0) {
       return desc.length > 42 ? desc.substring(0,42) + '...' : desc;
     }
-    return 'Empty content...';
+    return '...';
   }
 
   void getData() {
