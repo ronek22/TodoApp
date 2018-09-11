@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:todo_app/ui/simple_app_bar.dart';
 import 'package:todo_app/screens/todolist.dart';
 
-void main() => runApp(new MyApp());
-
+void main() {
+  MaterialPageRoute.debugEnableFadingRoutes = true;
+  runApp(MyApp());
+}
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
 
