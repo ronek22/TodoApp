@@ -121,7 +121,8 @@ class TodoListState extends State {
                      crossAxisAlignment: CrossAxisAlignment.start,
                      children: <Widget>[
                        Text(
-                         todos[position].description,
+                         descriptionParser(todos[position].description),
+                        //  todos[position].description != null ? todos[position].description : 'Empty content',
                          style: TextStyle(
                              fontSize: 13.0,
                              fontWeight: FontWeight.w600,
@@ -153,6 +154,12 @@ class TodoListState extends State {
         });
   }
 
+  String descriptionParser(String desc){
+    if (desc.length != 0) {
+      return desc.length > 42 ? desc.substring(0,42) + '...' : desc;
+    }
+    return 'Empty content...';
+  }
 
   void getData() {
     final dbFuture = helper.initalizeDb();
